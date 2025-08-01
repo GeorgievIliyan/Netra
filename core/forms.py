@@ -53,3 +53,8 @@ class TransactionForm(forms.Form):
     value = forms.FloatField(required=True, validators=[
             MinValueValidator(0, message="Transaction can\'t be less than 0!"),
         ])
+    
+class GoalForm(forms.Form):
+    title = forms.CharField(max_length=50, required=False)
+    value = forms.FloatField(required=True)
+    date = forms.DateField(required=True)

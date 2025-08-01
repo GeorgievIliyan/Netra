@@ -144,7 +144,7 @@ def dashboard(request):
     )
 
     context = {
-        'transactions': models.Transaction.objects.filter(user=user).all(),
+        'transactions': models.Transaction.objects.filter(user=user).order_by('-date_time'),
         'summary_today': summary_today,
         'summary_week': summary_week,
         'summary_month': summary_month,

@@ -41,3 +41,9 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f"{self.type.capitalize()}: {self.title or self.value}"
+    
+class BudgetGoal(models.Model):
+    title = models.CharField(max_length=50, null=True, blank=True)
+    value = models.FloatField(null=False,  blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    date = models.DateField()

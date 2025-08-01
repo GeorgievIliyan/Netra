@@ -1,0 +1,21 @@
+.tb-badge{
+    aspect-ratio: 1/1;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 20px;
+}
+.badge-green{
+    color: #28a745;
+    background-color: #def7e4;
+}
+.badge-red{
+    color:#dc3545;
+    background-color: #f9dcdf;
+}
+.badge-blue{
+    color: #17a2b8;
+    background-color: #dbf6fb;
+}
