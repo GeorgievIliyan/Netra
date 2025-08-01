@@ -56,5 +56,5 @@ class TransactionForm(forms.Form):
     
 class GoalForm(forms.Form):
     title = forms.CharField(max_length=50, required=False)
-    value = forms.FloatField(required=True)
-    date = forms.DateField(required=True)
+    value = forms.DecimalField(required=True)
+    date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True)

@@ -47,3 +47,4 @@ class BudgetGoal(models.Model):
     value = models.FloatField(null=False,  blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     date = models.DateField()
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)

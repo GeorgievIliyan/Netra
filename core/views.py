@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 import datetime
+from decimal import Decimal
 from . import models
 from . import checkers as check
 from . import forms
@@ -110,7 +111,7 @@ def get_user_financial_summary(user, start_date=None, end_date=None):
 @login_required
 def dashboard(request):
     user = request.user
-
+    # Date calculations
     today = timezone.localdate()
 
     day_start_date = today
@@ -118,37 +119,52 @@ def dashboard(request):
 
     week_start_date = today - datetime.timedelta(days=6)
     week_end_date = today
+
     month_start_date = today.replace(day=1)
     if today.month == 12:
         month_end_date = today.replace(year=today.year + 1, month=1, day=1) - datetime.timedelta(days=1)
     else:
         month_end_date = today.replace(month=today.month + 1, day=1) - datetime.timedelta(days=1)
 
+    # Financial summary for each day
+    summary_today = get_user_financial_summary(user, start_date=day_start_date, end_date=day_end_date)
+    summary_week = get_user_financial_summary(user, start_date=week_start_date, end_date=week_end_date)
+    summary_month = get_user_financial_summary(user, start_date=month_start_date, end_date=month_end_date)
 
-    summary_today = get_user_financial_summary(
-        user,
-        start_date=day_start_date,
-        end_date=day_end_date
-    )
+    # Retriving all budget goals
+    goals = models.BudgetGoal.objects.filter(
+        date__year=today.year,
+        date__month=today.month
+    ).order_by('-date')
 
-    summary_week = get_user_financial_summary(
-        user,
-        start_date=week_start_date,
-        end_date=week_end_date
-    )
+    for goal in goals:
+        if goal.value and goal.value > 0:
+            total_expenses = summary_month['total_expenses']
+            goal_value = goal.value
+        
+            # Decimal conversion
+            if not isinstance(total_expenses, Decimal):
+                total_expenses = Decimal(str(total_expenses))
+            if not isinstance(goal_value, Decimal):
+                goal_value = Decimal(str(goal_value))
+        
+            progress = (total_expenses / goal_value) * Decimal('100')
 
-    summary_month = get_user_financial_summary(
-        user,
-        start_date=month_start_date,
-        end_date=month_end_date
-    )
+            goal.progress_to_goal = min(max(progress, Decimal('0')), Decimal('100'))
+        else:
+            goal.progress_to_goal = None
 
+
+    # Context passing
     context = {
         'transactions': models.Transaction.objects.filter(user=user).order_by('-date_time'),
         'summary_today': summary_today,
         'summary_week': summary_week,
         'summary_month': summary_month,
+        'goals': goals,
+        'month_start_date': month_start_date,
     }
+
     return render(request, 'app/dashboard.html', context)
 
 @login_required
@@ -161,7 +177,7 @@ def transaction_logging(request):
             title = form.cleaned_data['title']
             description = form.cleaned_data['description']
             type = form.cleaned_data['transaction_type']
-            value = form.cleaned_data['value']
+            value = Decimal(str(form.cleaned_data['value']))
             
             try:
                 models.Transaction.objects.create(
@@ -180,3 +196,27 @@ def transaction_logging(request):
     else:
         form = forms.TransactionForm()
     return render(request, 'app/transaction_log.html', {'form': form})
+
+@login_required
+def set_goal(request):
+    if request.method == "POST":
+        form = forms.GoalForm(request.POST)
+        
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            value = form.cleaned_data['value']
+            date = form.cleaned_data['date']
+            
+            try:
+                models.BudgetGoal.objects.create(
+                    title = title,
+                    value = value,
+                    date = date
+                )
+                return redirect('dashboard')
+            except:
+                messages.error(request, 'Could not create a budget goal! Please try again.')
+                return render(request, 'app/set_goal.html', {'form': form})
+    else:
+        form = forms.GoalForm()
+    return render(request, 'app/set_goal.html', {'form': form})

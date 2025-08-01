@@ -2,142 +2,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Netra | Dashboard</title>
-    <link rel="icon" href="{% static 'logos/netra.svg' %}" type="image/svg+xml">
+    <link rel="icon" href="{% static 'logos/netra.svg' %}" type="image/svg+xml" />
     <!--BOOTSTRAP-->
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         rel="stylesheet"
     />
     <!--BOOTSTRAP ICONS-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
     <!--CSS & FONTS-->
-    <link rel="stylesheet" href="{% static 'styles/fonts.css' %}">
-    <link rel="stylesheet" href="{% static 'styles/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/fonts.css' %}" />
+    <link rel="stylesheet" href="{% static 'styles/dashboard.css' %}" />
 </head>
 <body>
     <div class="container py-5">
-    <h1 class="text-center fw-semibold text-primary user-select-none">Dashboard</h1>
+        <h1 class="text-center fw-semibold text-primary user-select-none">Dashboard</h1>
 
-    <div class="mb-4">
-        <a href="{% url 'log_transaction' %}" class="btn btn-success">Log Transaction</a>
-    </div>
-
-    <!--SUMMARY BOXES-->
-    <div class="row g-4 mb-5">
-        <div class="col-md-6 col-lg-3">
-            <div class="card h-100 border-success shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title text-success">Total Income</h5>
-                    <p class="card-text display-5 fw-bold">${{ summary_today.total_income|floatformat:2 }}</p>
-                    <small class="text-muted">Today's Income</small>
-                </div>
-                <div class="card-footer bg-success text-white">
-                    <small>Weekly: ${{ summary_week.total_income|floatformat:2 }}</small><br>
-                    <small>Monthly: ${{ summary_month.total_income|floatformat:2 }}</small>
-                </div>
-            </div>
+        <div class="mb-4">
+            <a href="{% url 'log_transaction' %}" class="btn btn-success">Log Transaction</a>
+            <a href="{% url 'set_goal' %}" class="btn btn-outline-info ms-2">Set Budget Goal</a>
         </div>
 
-        <div class="col-md-6 col-lg-3">
-            <div class="card h-100 border-danger shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title text-danger">Total Expenses</h5>
-                    <p class="card-text display-5 fw-bold">${{ summary_today.total_expenses|floatformat:2 }}</p>
-                    <small class="text-muted">Today's Expenses</small>
-                </div>
-                <div class="card-footer bg-danger text-white">
-                    <small>Weekly: ${{ summary_week.total_expenses|floatformat:2 }}</small><br>
-                    <small>Monthly: ${{ summary_month.total_expenses|floatformat:2 }}</small>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-            <div class="card h-100 border-info shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title text-info">Total Savings</h5>
-                    <p class="card-text display-5 fw-bold">${{ summary_today.total_savings|floatformat:2 }}</p>
-                    <small class="text-muted">Today's Savings</small>
-                </div>
-                <div class="card-footer bg-info text-dark">
-                    <small>Weekly: ${{ summary_week.total_savings|floatformat:2 }}</small><br>
-                    <small>Monthly: ${{ summary_month.total_savings|floatformat:2 }}</small>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3">
-            <div class="card h-100 {% if summary_today.net_balance >= 0 %}border-primary{% else %}border-warning{% endif %} shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title text-primary">Net Balance</h5>
-                    <p class="card-text display-5 fw-bold
-                        {% if summary_today.net_balance >= 0 %}text-primary{% else %}text-warning{% endif %}">
-                        ${{ summary_today.net_balance|floatformat:2 }}
-                    </p>
-                    <small class="text-muted">Today's Net</small>
-                </div>
-                <div class="card-footer bg-primary text-white">
-                    <small>Weekly Net: ${{ summary_week.net_balance|floatformat:2 }}</small><br>
-                    <small>Monthly Net: ${{ summary_month.net_balance|floatformat:2 }}</small>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!--RECENT TRANSACTIONS-->
-    <h3 class="mb-3">Recent Transactions</h3>
-    <div class="row row-cols-1 g-3"> {# A single column row for transactions, with gutters #}
-        {% for transaction in transactions|slice:":10" %} {# Showing last 10 transactions #}
-            <div class="col">
-                <div class="card p-3 user-select-none h-100
-                    {% if transaction.type == "expense" %}border-danger
-                    {% elif transaction.type == "income" %}border-success
-                    {% elif transaction.type == "saving" %}border-info
-                    {% endif %} shadow-sm">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <div class="d-flex gap-2 align-items-center">
-                                {% if transaction.type == 'income' %}
-                                <div class="tb-badge badge-green">
-                                    <i class="bi bi-cash"></i>
-                                </div>
-                                {% elif transaction.type == 'expense' %}
-                                <div class="tb-badge badge-red">
-                                    <i class="bi bi-cash"></i>
-                                </div>
-                                {% else %}
-                                <div class="tb-badge badge-blue">
-                                    <i class="bi bi-piggy-bank"></i>
-                                </div>
-                                {% endif %}
-                                <h5 class="fw-semibold mb-0">{{ transaction.title }}</h5>
-                            </div>
-                            <small class="text-muted d-block mt-1">{{ transaction.date_time|date:"F j, Y, P" }}</small>
-                        </div>
-                        <p class="fs-4 fw-bold mb-0
-                            {% if transaction.type == "expense" %}text-danger
-                            {% elif transaction.type == "income" %}text-success
-                            {% elif transaction.type == "saving" %}text-info
-                            {% endif %}">
-                            {% if transaction.type == "income" %}+{% endif %}
-                            {% if transaction.type == "expense" %}- {% endif %}${{ transaction.value|floatformat:2 }}
-                        </p>
+        <div class="row g-4 mb-5">
+            {# Income Card #}
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-success shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-success">Total Income</h5>
+                        <p class="card-text display-5 fw-bold">${{ summary_today.total_income|floatformat:2 }}</p>
+                        <small class="text-muted">Today's Income</small>
+                    </div>
+                    <div class="card-footer bg-success text-white">
+                        <small>Weekly: ${{ summary_week.total_income|floatformat:2 }}</small><br />
+                        <small>Monthly: ${{ summary_month.total_income|floatformat:2 }}</small>
                     </div>
                 </div>
             </div>
-        {% endfor %}
+
+            {# Expenses Card #}
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-danger shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-danger">Total Expenses</h5>
+                        <p class="card-text display-5 fw-bold">${{ summary_today.total_expenses|floatformat:2 }}</p>
+                        <small class="text-muted">Today's Expenses</small>
+                    </div>
+                    <div class="card-footer bg-danger text-white">
+                        <small>Weekly: ${{ summary_week.total_expenses|floatformat:2 }}</small><br />
+                        <small>Monthly: ${{ summary_month.total_expenses|floatformat:2 }}</small>
+                    </div>
+                </div>
+            </div>
+
+            {# Savings Card #}
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 border-info shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title text-info">Total Savings</h5>
+                        <p class="card-text display-5 fw-bold">${{ summary_today.total_savings|floatformat:2 }}</p>
+                        <small class="text-muted">Today's Savings</small>
+                    </div>
+                    <div class="card-footer bg-info text-dark">
+                        <small>Weekly: ${{ summary_week.total_savings|floatformat:2 }}</small><br />
+                        <small>Monthly: ${{ summary_month.total_savings|floatformat:2 }}</small>
+                    </div>
+                </div>
+            </div>
+
+            {# Net Balance Card #}
+            <div class="col-md-6 col-lg-3">
+                <div
+                    class="card h-100 {% if summary_month.net_balance >= 0 %}border-primary{% else %}border-warning{% endif %} shadow-sm"
+                >
+                    <div class="card-body">
+                        <h5 class="card-title text-primary">Monthly Net Balance</h5>
+                        <p
+                            class="card-text display-5 fw-bold
+                            {% if summary_month.net_balance >= 0 %}text-primary{% else %}text-warning{% endif %}"
+                        >
+                            ${{ summary_month.net_balance|floatformat:2 }}
+                        </p>
+                        <small class="text-muted">For this month</small>
+                    </div>
+                    <div class="card-footer bg-primary text-white">
+                        <small>Today's Net: ${{ summary_today.net_balance|floatformat:2 }}</small><br />
+                        <small>Weekly Net: ${{ summary_week.net_balance|floatformat:2 }}</small>
+                    </div>
+                </div>
+            </div>
+
+            {# Card Budget Goals #}
+            <div class="col-12 mt-4">
+                <div class="card border-dark shadow-sm">
+                    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">Monthly Budget Goals</h5>
+                        <small class="text-muted">Goals for {{ month_start_date|date:"F Y" }}</small>
+                    </div>
+                    <div class="card-body">
+                        {% if goals %}
+                            {% for budget_goal in goals %}
+                                <div class="mb-4 pb-3 border-bottom">
+                                    <p class="card-text fs-4">
+                                        Goal:
+                                        <strong class="text-primary">${{ budget_goal.value|floatformat:2 }}</strong>
+                                    </p>
+                                    <p class="card-text fs-5">
+                                        Current Monthly Expenses:
+                                        <strong class="text-danger">${{ summary_month.total_expenses|floatformat:2 }}</strong>
+                                    </p>
+
+                                    {% if budget_goal.progress_to_goal is not None %}
+                                        <div class="progress mt-3" style="height: 25px;">
+                                            <div
+                                                class="progress-bar
+                                                    {% if budget_goal.progress_to_goal < 75 %}bg-success
+                                                    {% elif budget_goal.progress_to_goal < 100 %}bg-warning
+                                                    {% else %}bg-danger{% endif %}"
+                                                role="progressbar"
+                                                data-progress="{{ budget_goal.progress_to_goal|floatformat:0 }}"
+                                                aria-valuemin="0"
+                                                aria-valuemax="100"
+                                            >
+                                            {{ budget_goal.progress_to_goal|floatformat:0 }}%
+                                            </div>
+                                        </div>
+                                        <small class="text-muted mt-2 d-block">
+                                            {% if budget_goal.progress_to_goal < 100 %}
+                                                You've spent {{ budget_goal.progress_to_goal|floatformat:0 }}% of this goal.
+                                            {% else %}
+                                                You have exceeded this budget goal!
+                                            {% endif %}
+                                        </small>
+                                    {% else %}
+                                        <p class="text-muted">Progress calculation not available (goal value is zero).</p>
+                                    {% endif %}
+
+                                    <small class="text-muted mt-3 d-block">
+                                        Goal set as: "{{ budget_goal.title }}" for {{ budget_goal.date|date:"F j, Y" }}
+                                    </small>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="card-text text-muted">No budget goals set for this month.</p>
+                            <a href="{% url 'set_goal' %}" class="btn btn-sm btn-outline-dark mt-2">Set a Monthly Goal</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!--RECENT TRANSACTIONS-->
+        <h3 class="mb-3">Recent Transactions</h3>
+        <div class="row row-cols-1 g-3">
+            {% for transaction in transactions|slice:":10" %}
+                <div class="col">
+                    <div
+                        class="card p-3 user-select-none h-100
+                        {% if transaction.type == "expense" %}border-danger
+                        {% elif transaction.type == "income" %}border-success
+                        {% elif transaction.type == "saving" %}border-info
+                        {% endif %} shadow-sm"
+                    >
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <div class="d-flex gap-2 align-items-center">
+                                    {% if transaction.type == 'income' %}
+                                        <div class="tb-badge badge-green">
+                                            <i class="bi bi-cash"></i>
+                                        </div>
+                                    {% elif transaction.type == 'expense' %}
+                                        <div class="tb-badge badge-red">
+                                            <i class="bi bi-cash"></i>
+                                        </div>
+                                    {% else %}
+                                        <div class="tb-badge badge-blue">
+                                            <i class="bi bi-piggy-bank"></i>
+                                        </div>
+                                    {% endif %}
+                                    <h5 class="fw-semibold mb-0">{{ transaction.title }}</h5>
+                                </div>
+                                <small class="text-muted d-block mt-1">
+                                    {{ transaction.date_time|date:"F j, Y, P" }}
+                                </small>
+                            </div>
+                            <p
+                                class="fs-4 fw-bold mb-0
+                                {% if transaction.type == "expense" %}text-danger
+                                {% elif transaction.type == "income" %}text-success
+                                {% elif transaction.type == "saving" %}text-info
+                                {% endif %}"
+                            >
+                                {% if transaction.type == "income" %}+{% endif %}
+                                {% if transaction.type == "expense" %}- {% endif %}${{ transaction.value|floatformat:2 }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        {% if not transactions %}
+            <p class="text-center text-muted">No transactions found yet. Start adding some!</p>
+        {% endif %}
     </div>
-    {% if not transactions %}
-        <p class="text-center text-muted">No transactions found yet. Start adding some!</p>
-    {% endif %}
 
-</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    ></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.progress-bar[data-progress]').forEach(function(bar) {
+            const progress = bar.getAttribute('data-progress');
+            bar.style.width = progress + '%';
+        });
+    });
+</script>
+
 </body>
 </html>
