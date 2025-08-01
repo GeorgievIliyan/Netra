@@ -1,4 +1,4 @@
-from datetime import date, datetime, timezone
+from django.utils import timezone
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -8,6 +8,7 @@ class UserProfile(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     
 class Transaction(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     TRANSACTION_TYPES = [
         ('income', 'Income'),
         ('expense', 'Expense'),

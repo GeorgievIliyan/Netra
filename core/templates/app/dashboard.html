@@ -19,6 +19,37 @@
         <h1 class="text-center fw-semibold text-primary user-select-none">Dashboard</h1>
 
         <a href="{% url 'log_transaction' %}" class="btn btn-success">Log Transaction</a>
+
+        <div class="card p-3 mt-3">
+            <h3 class="fw-semibold ">Today: </h1>
+            <p>Total Income: ${{ summary_today.total_income|floatformat:2 }}</p>
+            <p>Total Expenses: ${{ summary_today.total_expenses|floatformat:2 }}</p>
+            <p>Total Savings: ${{ summary_today.total_savings|floatformat:2 }}</p>
+            <p>Net Balance: ${{ summary_today.net_balance|floatformat:2 }}</p>
+        </div>
+
+        <div class="card p-3 mt-3">
+            <h3 class="fw-semibold ">Weekly: </h1>
+            <p>Total Income: ${{ summary_week.total_income|floatformat:2 }}</p>
+            <p>Total Expenses: ${{ summary_week.total_expenses|floatformat:2 }}</p>
+            <p>Total Savings: ${{ summary_week.total_savings|floatformat:2 }}</p>
+            <p>Net Balance: ${{ summary_week.net_balance|floatformat:2 }}</p>
+        </div>
+
+        <div class="card p-3 mt-3">
+            <h3 class="fw-semibold ">Monthly: </h1>
+            <p>Total Income: ${{ summary_month.total_income|floatformat:2 }}</p>
+            <p>Total Expenses: ${{ summary_month.total_expenses|floatformat:2 }}</p>
+            <p>Total Savings: ${{ summary_month.total_savings|floatformat:2 }}</p>
+            <p>Net Balance: ${{ summary_month.net_balance|floatformat:2 }}</p>
+        </div>
+
+        {% for transaction in transactions %}
+            <div class="card p-3 my-3 user-select-none">
+                <h3 class="fw-semibold">{{ transaction.title }}</h3>
+                <p>{{ transaction.value }}</p>
+            </div>
+        {% endfor %}
     </div>
 
     <script

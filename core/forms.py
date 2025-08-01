@@ -42,7 +42,13 @@ class LoginForm(forms.Form):
     
 class TransactionForm(forms.Form):
     title = forms.CharField(max_length=50, required=False)
-    description = forms.Textarea()
+    description = forms.CharField(
+        label="Description: ",
+        widget=forms.Textarea,
+        max_length=300,
+        required=False,
+        help_text="*optional Provide description (max 300 characters)." 
+    )
     transaction_type = forms.ChoiceField(choices=models.Transaction.TRANSACTION_TYPES, label="Choose transaction type: ", required=True)
     value = forms.FloatField(required=True, validators=[
             MinValueValidator(0, message="Transaction can\'t be less than 0!"),

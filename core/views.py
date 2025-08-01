@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.db.models import Sum
 from django.contrib.auth import authenticate,logout
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
+import datetime
 from . import models
 from . import checkers as check
 from . import forms
@@ -80,10 +83,100 @@ def delete_account(request):
     return render(request, 'auth/delete_account_confirm.html')
 
 #* ===== MAIN APPLICATION ===== *#
+
+def get_user_financial_summary(user, start_date=None, end_date=None):
+    queryset = models.Transaction.objects.filter(user=user, value__isnull=False)
+    
+    if start_date:
+        start_datetime = timezone.make_aware(datetime.datetime.combine(start_date, datetime.time.min))
+        queryset = queryset.filter(date_time__gte=start_datetime)
+    if end_date:
+        end_datetime = timezone.make_aware(datetime.datetime.combine(end_date, datetime.time.max))
+        queryset = queryset.filter(date_time__lte=end_datetime)
+
+    income_sum = queryset.filter(type='income').aggregate(total=Sum('value'))['total'] or 0
+    expenses_sum = queryset.filter(type='expense').aggregate(total=Sum('value'))['total'] or 0
+    savings_sum = queryset.filter(type='saving').aggregate(total=Sum('value'))['total'] or 0
+
+    net_balance = income_sum - expenses_sum
+
+    return {
+        'total_income': income_sum,
+        'total_expenses': expenses_sum,
+        'total_savings': savings_sum,
+        'net_balance': net_balance,
+    }
+    
 @login_required
 def dashboard(request):
-    return render(request, 'app/dashboard.html')
+    user = request.user
+
+    today = timezone.localdate()
+
+    day_start_date = today
+    day_end_date = today
+
+    week_start_date = today - datetime.timedelta(days=6)
+    week_end_date = today
+    month_start_date = today.replace(day=1)
+    if today.month == 12:
+        month_end_date = today.replace(year=today.year + 1, month=1, day=1) - datetime.timedelta(days=1)
+    else:
+        month_end_date = today.replace(month=today.month + 1, day=1) - datetime.timedelta(days=1)
+
+
+    summary_today = get_user_financial_summary(
+        user,
+        start_date=day_start_date,
+        end_date=day_end_date
+    )
+
+    summary_week = get_user_financial_summary(
+        user,
+        start_date=week_start_date,
+        end_date=week_end_date
+    )
+
+    summary_month = get_user_financial_summary(
+        user,
+        start_date=month_start_date,
+        end_date=month_end_date
+    )
+
+    context = {
+        'transactions': models.Transaction.objects.filter(user=user).all(),
+        'summary_today': summary_today,
+        'summary_week': summary_week,
+        'summary_month': summary_month,
+    }
+    return render(request, 'app/dashboard.html', context)
 
 @login_required
 def transaction_logging(request):
-    return render(request, 'app/transaction_log.html')
+    if request.method == "POST":
+        user = request.user
+        form = forms.TransactionForm(request.POST)
+        
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            description = form.cleaned_data['description']
+            type = form.cleaned_data['transaction_type']
+            value = form.cleaned_data['value']
+            
+            try:
+                models.Transaction.objects.create(
+                    user = user,
+                    title = title,
+                    description = description,
+                    type = type,
+                    value = value
+                )
+                messages.success(request, 'Logged transaction succesfully!')
+                return redirect('dashboard')
+            except Exception as e:
+                print(f"An error occured while logging a transaction: {e}.")
+                messages.error(request,"Could not log transaction! Please try again.")
+                return render(request, 'app/transaction_log.html', {'form': form})
+    else:
+        form = forms.TransactionForm()
+    return render(request, 'app/transaction_log.html', {'form': form})
