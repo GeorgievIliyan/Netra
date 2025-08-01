@@ -1,0 +1,40 @@
+from django import forms
+from django.contrib.auth import get_user_model
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+
+User = get_user_model()
+
+class RegisterForm(forms.Form):
+    username = forms.CharField(max_length=50, label="Username: ")
+    email = forms.EmailField(label="Email: ")
+    password = forms.CharField(widget=forms.PasswordInput, label="Password: ")
+    password_confirm = forms.CharField(widget=forms.PasswordInput, label="Confirm password: ")
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        if User.objects.filter(username=username).exists():
+            raise ValidationError("Username is already taken! Please use a different one instead.")
+        return username
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if User.objects.filter(email=email).exists():
+            raise ValidationError("Email is already in use! Please use a different one instead!")
+        return email
+
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        password_confirm = cleaned_data.get('password_confirm')
+
+        if password and password_confirm:
+            if password != password_confirm:
+                raise ValidationError("Passwords do not match!")
+
+        return cleaned_data
+    
+class LoginForm(forms.Form):
+    username = forms.CharField(max_length=50, label="Username: ")
+    password = forms.CharField(widget=forms.PasswordInput, label="Password: ")
