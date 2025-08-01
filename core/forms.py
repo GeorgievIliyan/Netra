@@ -1,7 +1,8 @@
 from django import forms
+from . import models
 from django.contrib.auth import get_user_model
-from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 User = get_user_model()
 
@@ -38,3 +39,11 @@ class RegisterForm(forms.Form):
 class LoginForm(forms.Form):
     username = forms.CharField(max_length=50, label="Username: ")
     password = forms.CharField(widget=forms.PasswordInput, label="Password: ")
+    
+class TransactionForm(forms.Form):
+    title = forms.CharField(max_length=50, required=False)
+    description = forms.Textarea()
+    transaction_type = forms.ChoiceField(choices=models.Transaction.TRANSACTION_TYPES, label="Choose transaction type: ", required=True)
+    value = forms.FloatField(required=True, validators=[
+            MinValueValidator(0, message="Transaction can\'t be less than 0!"),
+        ])

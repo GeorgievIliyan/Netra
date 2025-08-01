@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate,logout
+from django.contrib.auth import login as auth_login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from . import models
@@ -34,7 +35,7 @@ def register(request):
         form = forms.RegisterForm()
     return render(request, 'auth/register.html', {'form': form})
 
-def login(request):
+def login_view(request):
     if request.method == "POST":
         form = forms.LoginForm(request.POST)
         
@@ -42,12 +43,12 @@ def login(request):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
             
-            user = authenticate(username = username, password = password)
+            user = authenticate(request, username = username, password = password)
             
             if user is not None:
-                login(request, user)
+                auth_login(request, user)
                 messages.success(request, 'Logged in succesfully!')
-                return redirect()
+                return redirect('dashboard')
             else:
                 messages.error(request, 'Invalid creditentials!')
                 return render(request, 'auth/login.html', {'form':form})
@@ -59,7 +60,7 @@ def login(request):
 def logout(request):
     if request.method == "POST":
         logout(request)
-        return redirect()
+        return redirect('dashboard')
     return render(request, 'auth/logout.html')
 
 @login_required
@@ -77,3 +78,12 @@ def delete_account(request):
             return render(request, 'auth/delete_account_confirm.html')
 
     return render(request, 'auth/delete_account_confirm.html')
+
+#* ===== MAIN APPLICATION ===== *#
+@login_required
+def dashboard(request):
+    return render(request, 'app/dashboard.html')
+
+@login_required
+def transaction_logging(request):
+    return render(request, 'app/transaction_log.html')
