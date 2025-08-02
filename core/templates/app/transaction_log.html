@@ -53,7 +53,10 @@
                     </div>
                 {% endfor %}
 
-                <button class="btn btn-primary mt-3 align-self-center" type="submit">Log</button>
+                <div class="d-flex gap-2 justify-content-center">
+                    <button class="btn btn-primary" type="submit">Log</button>
+                    <a href="{% url 'dashboard' %}" class="btn btn-danger">Cancel</a>
+                </div>
             </form>
         </div>
     </div>

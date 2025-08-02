@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.db.models import Sum
 from django.contrib.auth import authenticate,logout
@@ -167,6 +167,7 @@ def dashboard(request):
 
     return render(request, 'app/dashboard.html', context)
 
+#* == TRANSACTIONS == *#
 @login_required
 def transaction_logging(request):
     if request.method == "POST":
@@ -197,6 +198,45 @@ def transaction_logging(request):
         form = forms.TransactionForm()
     return render(request, 'app/transaction_log.html', {'form': form})
 
+@login_required
+def transactions_view(request):
+    user = request.user
+    context = {
+        'transactions': models.Transaction.objects.filter(user=user).order_by('-date_time')
+    }
+    return render(request, 'app/transactions.html', context)
+
+@login_required
+def transaction_delete(request, pk):
+    transaction = get_object_or_404(models.Transaction, pk = pk)
+    if request.method == "POST":
+        transaction.delete()
+        return redirect('dashboard')
+    return render(request, 'app/transaction_delete.html', {'transaction': transaction})
+
+def transaction_edit(request, pk):
+    transaction = get_object_or_404(models.Transaction, pk=pk)
+
+    if request.method == 'POST':
+        form = forms.TransactionForm(request.POST)
+        if form.is_valid():
+            transaction.title = form.cleaned_data['title']
+            transaction.description = form.cleaned_data['description']
+            transaction.type = form.cleaned_data['transaction_type']
+            transaction.value = form.cleaned_data['value']
+            transaction.save()
+            return redirect('dashboard')
+    else:
+        form = forms.TransactionForm(initial={
+            'title': transaction.title,
+            'description': transaction.description,
+            'transaction_type': transaction.type,
+            'value': transaction.value,
+        })
+
+    return render(request, 'app/transaction_edit.html', {'form': form, 'transaction': transaction})
+        
+#* == GOALS == *#
 @login_required
 def set_goal(request):
     if request.method == "POST":
