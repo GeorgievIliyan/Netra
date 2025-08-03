@@ -1,0 +1,25 @@
+{% load static %}
+<nav>
+    <a href="{% url 'dashboard' %}" class="logo-link">
+        <img src="{% static 'logos/netra.svg' %}">
+        Netra
+    </a>
+    <div class="nav-wrapper">
+        <a href="{% url 'dashboard' %}">
+            <i class="bi bi-view-stacked"></i>
+            <span>Dashboard</span>
+        </a>
+        <a href="{% url 'transactions' %}">
+            <i class="bi bi-cash"></i>
+            <span>Transactions</span>
+        </a>
+        <a href="#">
+            <i class="bi bi-list"></i>
+            <span>Summary</span>
+        </a>
+        <a href="#">
+            <i class="bi bi-person-fill"></i>
+            <span>Account</span>
+        </a>
+    </div>
+</nav>
