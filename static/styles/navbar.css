@@ -58,7 +58,7 @@ nav a:hover {
 }
 
 nav i {
-    font-size: 24px;
+    font-size: 36px;
     color: #1D85EB;
 }
 
@@ -108,7 +108,7 @@ nav a span {
     nav a {
         flex: 1;
         justify-content: center;
-        padding: 6px 0;
+        padding: 6px 12px;
     }
 
     nav a i {

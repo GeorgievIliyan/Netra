@@ -262,3 +262,8 @@ def set_goal(request):
     else:
         form = forms.GoalForm()
     return render(request, 'app/set_goal.html', {'form': form})
+
+#* == SUMMARY == *#
+@login_required
+def summary(request):
+    return render(request,'app/summary.html')
