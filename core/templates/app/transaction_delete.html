@@ -17,10 +17,11 @@
 <body class="user-select-none d-flex align-items-center justify-content-center" style="min-height: 100vh;">
     <div class="shadow rounded d-flex flex-column gap-3 align-items-center justify-content-center text-center p-4 p-sm-5" style="max-width: 400px; width: 90%;">
         <h3 class="mb-3">Are you sure you want to delete <span class="fw-semibold text-primary">{{ transaction.title }}</span>?</h3>
-        <div class="d-grid gap-2 d-sm-block">
+        <form class="d-grid gap-2 d-sm-block" method="POST">
+            {% csrf_token %}
             <button type="submit" class="btn btn-success">Delete <i class="bi bi-box-arrow-right ms-1"></i></button>
             <a href="{% url 'dashboard' %}" class="btn btn-danger">Cancel</a>
-        </div>
+        </form>
     </div>
 </body>
 </html>

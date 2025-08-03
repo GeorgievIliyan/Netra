@@ -211,6 +211,7 @@ def transaction_delete(request, pk):
     transaction = get_object_or_404(models.Transaction, pk = pk)
     if request.method == "POST":
         transaction.delete()
+        messages.success(request, 'Transaction deleted succesfully!')
         return redirect('dashboard')
     return render(request, 'app/transaction_delete.html', {'transaction': transaction})
 
@@ -225,6 +226,7 @@ def transaction_edit(request, pk):
             transaction.type = form.cleaned_data['transaction_type']
             transaction.value = form.cleaned_data['value']
             transaction.save()
+            messages.success(request, 'Transaction saved!')
             return redirect('dashboard')
     else:
         form = forms.TransactionForm(initial={
