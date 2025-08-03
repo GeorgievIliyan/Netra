@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.db.models import Sum
-from django.contrib.auth import authenticate,logout
+from django.contrib.auth import authenticate
+from django.contrib.auth import logout as auth_logout
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
@@ -12,6 +13,7 @@ from . import models
 from . import checkers as check
 from . import forms
 
+#* ===== MISC ===== *#
 #* ===== AUTHENTICATION VIEWS ===== *#
 def register(request):
     if request.method == "POST":
@@ -32,6 +34,7 @@ def register(request):
                 messages.success(request, 'Account created successfully!')
                 return redirect('login')
             except Exception as e:
+                print(f"Registration error: {e}")
                 messages.error(request, 'Could not create account. Please try again!')
         return render(request, 'auth/register.html', {'form': form})
 
@@ -63,8 +66,9 @@ def login_view(request):
 @login_required
 def logout(request):
     if request.method == "POST":
-        logout(request)
-        return redirect('dashboard')
+        auth_logout(request)
+        messages.info(request, 'You have been logged out of your account.')
+        return redirect('login')
     return render(request, 'auth/logout.html')
 
 @login_required
