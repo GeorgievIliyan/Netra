@@ -19,8 +19,10 @@
         <h3 class="mb-3">Are you sure you want to delete your account?</h3>
         <p class="text-danger"><i class="bi bi-exclamation-octagon-fill me-1"></i> Warning: This action is irreversible and all your data will be erased!</p>
         <div class="d-grid gap-2 d-sm-block">
-            <button type="submit" class="btn btn-success">Delete <i class="bi bi-trash3-fill ms-1"></i></button>
-            <a href="{% url 'your_cancel_url_name' %}" class="btn btn-danger">Cancel</a>
+            <form method="POST">
+                <button type="submit" class="btn btn-success">Delete <i class="bi bi-trash3-fill ms-1"></i></button>
+                <a href="{% url 'dashboard' %}" class="btn btn-danger">Cancel</a>
+            </form>
         </div>
     </div>
 </body>

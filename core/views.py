@@ -71,17 +71,25 @@ def logout(request):
 def delete_account(request):
     if request.method == "POST":
         user_to_delete = request.user
-        logout(request) 
         try:
             user_to_delete.delete()
+            logout(request) 
             messages.success(request, "Your account has been successfully deleted.")
-            return redirect('home')
+            return redirect('login')
         except Exception as e:
             print(f'A logout error has occured: {e}')
             messages.error(request, "There was an error deleting your account. Please try again.")
-            return render(request, 'auth/delete_account_confirm.html')
+            return render(request, 'auth/delete_account.html')
 
-    return render(request, 'auth/delete_account_confirm.html')
+    return render(request, 'auth/delete_account.html')
+
+@login_required
+def account_details(request):
+    user = request.user
+    context = {
+        'user': user,
+    }
+    return render(request, 'auth/account_details.html', context)
 
 #* ===== MAIN APPLICATION ===== *#
 
