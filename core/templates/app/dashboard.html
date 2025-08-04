@@ -20,7 +20,6 @@
     />
     <!--CSS & FONTS-->
     <link rel="stylesheet" href="{% static 'styles/fonts.css' %}"/>
-    <link rel="stylesheet" href="{% static 'styles/dashboard.css' %}"/>
     <link rel="stylesheet" href="{% static 'styles/navbar.css' %}">
     <link rel="stylesheet" href="{% static 'styles/transaction.css' %}">
 </head>
@@ -40,8 +39,8 @@
         {% endif %}
 
         <div class="mb-4">
-            <a href="{% url 'log_transaction' %}" class="btn btn-success">Log Transaction</a>
-            <a href="{% url 'set_goal' %}" class="btn btn-outline-info ms-2">Set Expenses Goal</a>
+            <a href="{% url 'log_transaction' %}" class="button-prim">Log Transaction</a>
+            <a href="{% url 'set_goal' %}" class="button-grn">Set Expenses Goal</a>
         </div>
 
         <div class="row g-4 mb-5">
@@ -259,4 +258,19 @@
 </script>
 
 </body>
+
+<style>
+    .button-grn{
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: #00931B;
+    padding: 10px 15px;
+    font-size: 16px;
+    transition: .2s ease-in-out all;
+    }
+    .button-grn:hover{
+        background-color: #017416;
+    }
+</style>
 </html>

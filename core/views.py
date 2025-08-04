@@ -250,9 +250,10 @@ def transaction_edit(request, pk):
 
     return render(request, 'app/transaction_edit.html', {'form': form, 'transaction': transaction})
         
-#* == GOALS == *#
+#* ==== BUDGET GOALS ===== *#
 @login_required
 def set_goal(request):
+    user = request.user
     if request.method == "POST":
         form = forms.GoalForm(request.POST)
         
@@ -265,7 +266,8 @@ def set_goal(request):
                 models.BudgetGoal.objects.create(
                     title = title,
                     value = value,
-                    date = date
+                    date = date,
+                    user = user
                 )
                 return redirect('dashboard')
             except:
@@ -275,7 +277,47 @@ def set_goal(request):
         form = forms.GoalForm()
     return render(request, 'app/set_goal.html', {'form': form})
 
-#* == SUMMARY == *#
 @login_required
-def summary(request):
-    return render(request,'app/summary.html')
+def budget_goals(request):
+    user_goals = models.BudgetGoal.objects.filter(user=request.user).order_by('-date')
+    context = {
+        'goals': user_goals
+    }
+    return render(request, 'app/goals.html', context)
+
+@login_required
+def goal_delete(request, pk):
+    goal = get_object_or_404(models.BudgetGoal, pk = pk)
+    
+    if request.method == "POST":
+        goal.delete()
+        return redirect('goals')
+    return render(request, 'app/goal_delete.html', {'goal': goal})
+
+@login_required
+def goal_edit(request, pk):
+    goal = get_object_or_404(models.BudgetGoal, pk = pk)
+    if request.method == "POST":
+        form = forms.GoalForm(request.POST)
+        
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            value = form.cleaned_data['value']
+            date = form.cleaned_data['date']
+            
+            try:
+                goal.value = value
+                goal.title = title
+                goal.date = date
+                messages.success(request, 'Budget Goal edited succesfully!')
+                return redirect('dashboard')
+            except:
+                messages.error(request, 'Could not update budget goal! Please try again.')
+                return render(request, 'app/set_goal.html', {'form': form})
+    else:
+        form = forms.GoalForm(initial={
+            'title': goal.title,
+            'value': goal.value,
+            'date': goal.date
+        })
+    return render(request, 'app/goal_edit.html', {'form': form})
