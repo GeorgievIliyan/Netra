@@ -2,6 +2,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
+    #* ==== MISC URLS ===== *#
+    path('', views.homepage, name='homepage'),
     #* ==== AUTH URLS ===== *#
     path('auth/register/', views.register, name='register'),
     path('auth/login/', views.login_view, name='login'),

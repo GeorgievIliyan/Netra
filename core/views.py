@@ -14,6 +14,8 @@ from . import checkers as check
 from . import forms
 
 #* ===== MISC ===== *#
+def homepage(request):
+    return render(request, 'misc/homepage.html')
 #* ===== AUTHENTICATION VIEWS ===== *#
 def register(request):
     if request.method == "POST":
