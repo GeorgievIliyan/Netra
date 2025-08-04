@@ -1,0 +1,71 @@
+.button-grn{
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: #00931B;
+    padding: 10px 15px;
+    font-size: 16px;
+    transition: .2s ease-in-out all;
+}
+.button-grn:hover{
+    background-color: #017416;
+}
+.button-prim{
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: #1D85EB;
+    padding: 10px 15px;
+    font-size: 16px;
+    transition: .2s ease-in-out all;
+}
+.button-prim:hover{
+    background-color: #0f66bd;
+}
+h1{
+    text-align: center;
+    color: #1D85EB;
+    font-weight: 600;
+    margin-bottom: 20px;
+    user-select: none;
+}
+.goal-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+.goal{
+    background-color: white;
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #1D85EB;
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+}
+.goal-top{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.goal-value{
+    color: #1D85EB;
+    font-weight: 600;
+    font-size: 32px;
+}
+.container{
+    padding-top: 100px;
+}
+.goal-title{
+    font-weight: 600;
+    font-size: 32px;
+    margin-bottom: 0;
+}
+.creation-date{
+    color: rgb(124, 124, 124);
+    font-size: 14px;
+    margin-top: 25px;
+    user-select: none;
+}
+.value{
+    color: #1D85EB;
+}

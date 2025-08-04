@@ -193,6 +193,7 @@ def transaction_logging(request):
             description = form.cleaned_data['description']
             type = form.cleaned_data['transaction_type']
             value = Decimal(str(form.cleaned_data['value']))
+            category = form.cleaned_data['category']
             
             try:
                 models.Transaction.objects.create(
@@ -200,7 +201,8 @@ def transaction_logging(request):
                     title = title,
                     description = description,
                     type = type,
-                    value = value
+                    value = value,
+                    category = category
                 )
                 messages.success(request, 'Logged transaction succesfully!')
                 return redirect('dashboard')

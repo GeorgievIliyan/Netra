@@ -50,6 +50,11 @@ class TransactionForm(forms.Form):
         help_text="*optional Provide description (max 300 characters)." 
     )
     transaction_type = forms.ChoiceField(choices=models.Transaction.TRANSACTION_TYPES, label="Choose transaction type: ", required=True)
+    category = forms.ModelChoiceField(
+        queryset= models.TransactionCategory.objects.all(),
+        required=False,
+        label="Category: "
+    )
     value = forms.FloatField(required=True, validators=[
             MinValueValidator(0, message="Transaction can\'t be less than 0!"),
         ])
