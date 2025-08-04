@@ -1,0 +1,87 @@
+:root {
+    --primary: #1D85EB;
+    --success: #00931B;
+    --danger: #C41313;
+    --warning: #FFC107;
+    --info: #0dcaf0;
+    --dark: #2c3e50;
+    --light: #ecf0f1;
+    --muted: #7f8c8d;
+    --border: #e0e0e0;
+    --bg-light: #f8f9fa;
+    --bg-card: #ffffff;
+
+    --space-xs: 5px;
+    --space-sm: 10px;
+    --space-md: 15px;
+    --space-lg: 20px;
+    --space-xl: 30px;
+    --space-xxl: 40px;
+    --space-xxxl: 50px;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--dark);
+    line-height: 1.6;
+    padding: var(--space-lg);
+}
+
+.account-card-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.account-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--space-md);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: var(--space-xxl);
+    max-width: 600px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.account-title {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--primary);
+    text-align: center;
+    margin-bottom: var(--space-md);
+}
+
+.account-info-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.account-label {
+    font-weight: 500;
+    color: var(--muted);
+    font-size: 0.95rem;
+}
+
+.account-value {
+    background-color: var(--bg-light);
+    border: 1px solid var(--border);
+    border-radius: var(--space-xs);
+    padding: var(--space-xs) var(--space-sm);
+    font-size: 1rem;
+}
+
+.account-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+@media (min-width: 576px) {
+    .account-actions {
+        flex-direction: row;
+    }
+}

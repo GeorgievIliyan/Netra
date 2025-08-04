@@ -7,16 +7,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Netra | Transactions</title>
-    <!--BOOTSTRAP-->
+    <link rel="icon" href="{% static 'logos/netra.svg' %}" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         rel="stylesheet"
+        xintegrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+        crossorigin="anonymous"
     />
-    <!--BOOTSTRAP ICONS-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <!--TAB LOGO-->
-    <link rel="icon" href="{% static 'logos/netra.svg' %}" type="image/svg+xml">
-    <!--CSS & FONTS-->
     <link rel="stylesheet" href="{% static 'styles/fonts.css' %}">
     <link rel="stylesheet" href="{% static 'styles/dashboard.css' %}">
     <link rel="stylesheet" href="{% static 'styles/navbar.css' %}">
@@ -28,92 +29,95 @@
             <h1>All Transactions</h1>
             <a href="{% url 'log_transaction' %}" class="button-prim">Log Transaction</a>
         </div>
-            <div class="transactions-wrapper">
-        {% for transaction in transactions %}
-            {% if transaction.type == "income" %}
-                <div class="transaction transaction-income">
-                    <div class="transaction-left">
-                        <div class="transaction-header">
-                            <div class="transaction-icon-income">
-                                <i class="bi bi-wallet2"></i>
+        <div class="transactions-wrapper">
+            {% for transaction in transactions %}
+                {% if transaction.type == "income" %}
+                    <div class="transaction transaction-income">
+                        <div class="transaction-left">
+                            <div class="transaction-header">
+                                <div class="transaction-icon-income">
+                                    <i class="bi bi-wallet2"></i>
+                                </div>
+                                <p class="transaction-title income">{{ transaction.title }}</p>
                             </div>
-                            <p class="transaction-title income">{{ transaction.title }}</p>
-                        </div>
-                        <div class="transaction-date">
-                            Category: {{ transaction.category }}
-                        </div>
-                        <p class="transaction-date">
-                            {{ transaction.date_time|date:"F j, Y, P" }}
-                        </p>
-
-                        <div class="d-flex gap-2">
-                            <a href="{% url 'edit_transaction' transaction.pk %}" class="btn btn-sm btn-outline-warning mt-2"><i class="bi bi-pencil-square"></i></a>
-                            <a href="{% url 'delete_transaction' transaction.pk %}" class="btn btn-sm btn-outline-danger mt-2"><i class="bi bi-trash3-fill"></i></a>
-                        </div>
-                    </div>
-                    <div class="transaction-right">
-                        <p class="transaction-value income">{{ transaction.value|floatformat:2 }}</p>
-                    </div>
-                </div>
-            {% elif transaction.type == "saving" %}
-                <div class="transaction transaction-saving">
-                    <div class="transaction-left">
-                        <div class="transaction-header">
-                            <div class="transaction-icon-saving">
-                                <i class="bi bi-wallet2"></i>
+                            <div class="transaction-date">
+                                Category: {{ transaction.category }}
                             </div>
-                            <p class="transaction-title saving">{{ transaction.title }}</p>
-                        </div>
-                        <div class="transaction-date">
-                            Category: {{ transaction.category }}
-                        </div>
-                        <p class="transaction-date">
-                            {{ transaction.date_time|date:"F j, Y, P" }}
-                        </p>
+                            <p class="transaction-date">
+                                {{ transaction.date_time|date:"F j, Y, P" }}
+                            </p>
 
-                        <div class="d-flex gap-2">
-                            <a href="{% url 'edit_transaction' transaction.pk %}" class="btn btn-sm btn-outline-warning mt-2"><i class="bi bi-pencil-square"></i></a>
-                            <a href="{% url 'delete_transaction' transaction.pk %}" class="btn btn-sm btn-outline-danger mt-2"><i class="bi bi-trash3-fill"></i></a>
-                        </div>
-                    </div>
-                    <div class="transaction-right">
-                        <p class="transaction-value saving">{{ transaction.value|floatformat:2 }}</p>
-                    </div>
-                </div>
-            {% else %}
-                <div class="transaction transaction-expense">
-                    <div class="transaction-left">
-                        <div class="transaction-header">
-                            <div class="transaction-icon-expense">
-                                <i class="bi bi-wallet2"></i>
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'edit_transaction' transaction.pk %}" class="btn btn-sm btn-outline-warning mt-2"><i class="bi bi-pencil-square"></i></a>
+                                <a href="{% url 'delete_transaction' transaction.pk %}" class="btn btn-sm btn-outline-danger mt-2"><i class="bi bi-trash3-fill"></i></a>
                             </div>
-                            <p class="transaction-title expense">{{ transaction.title }}</p>
                         </div>
-                        <div class="transaction-date">
-                            Category: {{ transaction.category }}
+                        <div class="transaction-right">
+                            <p class="transaction-value income">+${{ transaction.value|floatformat:2 }}</p>
                         </div>
-                        <p class="transaction-date">
-                            {{ transaction.date_time|date:"F j, Y, P" }}
-                        </p>
+                    </div>
+                {% elif transaction.type == "saving" %}
+                    <div class="transaction transaction-saving">
+                        <div class="transaction-left">
+                            <div class="transaction-header">
+                                <div class="transaction-icon-saving">
+                                    <i class="bi bi-piggy-bank"></i>
+                                </div>
+                                <p class="transaction-title saving">{{ transaction.title }}</p>
+                            </div>
+                            <div class="transaction-date">
+                                Category: {{ transaction.category }}
+                            </div>
+                            <p class="transaction-date">
+                                {{ transaction.date_time|date:"F j, Y, P" }}
+                            </p>
 
-                        <div class="d-flex gap-2">
-                            <a href="{% url 'edit_transaction' transaction.pk %}" class="btn btn-sm btn-outline-warning mt-2"><i class="bi bi-pencil-square"></i></a>
-                            <a href="{% url 'delete_transaction' transaction.pk %}" class="btn btn-sm btn-outline-danger mt-2"><i class="bi bi-trash3-fill"></i></a>
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'edit_transaction' transaction.pk %}" class="btn btn-sm btn-outline-warning mt-2"><i class="bi bi-pencil-square"></i></a>
+                                <a href="{% url 'delete_transaction' transaction.pk %}" class="btn btn-sm btn-outline-danger mt-2"><i class="bi bi-trash3-fill"></i></a>
+                            </div>
+                        </div>
+                        <div class="transaction-right">
+                            <p class="transaction-value saving">${{ transaction.value|floatformat:2 }}</p>
                         </div>
                     </div>
-                    <div class="transaction-right">
-                        <p class="transaction-value expense">- {{ transaction.value|floatformat:2 }}</p>
+                {% else %}
+                    <div class="transaction transaction-expense">
+                        <div class="transaction-left">
+                            <div class="transaction-header">
+                                <div class="transaction-icon-expense">
+                                    <i class="bi bi-cash-stack"></i>
+                                </div>
+                                <p class="transaction-title expense">{{ transaction.title }}</p>
+                            </div>
+                            <div class="transaction-date">
+                                Category: {{ transaction.category }}
+                            </div>
+                            <p class="transaction-date">
+                                {{ transaction.date_time|date:"F j, Y, P" }}
+                            </p>
+
+                            <div class="d-flex gap-2">
+                                <a href="{% url 'edit_transaction' transaction.pk %}" class="btn btn-sm btn-outline-warning mt-2"><i class="bi bi-pencil-square"></i></a>
+                                <a href="{% url 'delete_transaction' transaction.pk %}" class="btn btn-sm btn-outline-danger mt-2"><i class="bi bi-trash3-fill"></i></a>
+                            </div>
+                        </div>
+                        <div class="transaction-right">
+                            <p class="transaction-value expense">-${{ transaction.value|floatformat:2 }}</p>
+                        </div>
                     </div>
-                </div>
-            {% endif %}
-        {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% if not transactions %}
+            <p class="text-center text-muted">No transactions found yet. Start adding some!</p>
+        {% endif %}
     </div>
-    {% if not transactions %}
-        <p class="text-center text-muted">No transactions found yet. Start adding some!</p>
-    {% endif %}
     
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        xintegrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"
     ></script>
 </body>
 </html>

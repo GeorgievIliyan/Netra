@@ -8,20 +8,380 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Netra | Dashboard</title>
     <link rel="icon" href="{% static 'logos/netra.svg' %}" type="image/svg+xml" />
-    <!--BOOTSTRAP-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         rel="stylesheet"
+        xintegrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+        crossorigin="anonymous"
     />
-    <!--BOOTSTRAP ICONS-->
     <link
         rel="stylesheet"
         href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
     />
-    <!--CSS & FONTS-->
     <link rel="stylesheet" href="{% static 'styles/fonts.css' %}"/>
     <link rel="stylesheet" href="{% static 'styles/navbar.css' %}">
     <link rel="stylesheet" href="{% static 'styles/transaction.css' %}">
+
+    <style>
+        :root {
+            --blue-primary: #1D85EB;
+            --green-success: #00931B;
+            --red-danger: #C41313;
+            --warning-color: #FFC107;
+            --info-color: #0dcaf0;
+            --dark-text: #2c3e50;
+            --light-text: #ecf0f1;
+            --muted-text: #7f8c8d;
+            --border-color: #e0e0e0;
+            --bg-light: #f8f9fa;
+            --bg-card: #ffffff;
+
+            --spacing-xs: 5px;
+            --spacing-sm: 10px;
+            --spacing-md: 15px;
+            --spacing-lg: 20px;
+            --spacing-xl: 30px;
+            --spacing-xxl: 40px;
+            --spacing-xxxl: 50px;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--dark-text);
+            line-height: 1.6;
+            padding: var(--spacing-lg);
+        }
+
+        .container.py-5.mt-5 {
+            padding-top: var(--spacing-xxxl) !important;
+            padding-bottom: var(--spacing-xxxl) !important;
+            margin-top: var(--spacing-xxxl) !important;
+            max-width: 1200px;
+        }
+
+        h1.text-center.fw-semibold.text-primary {
+            font-weight: 600 !important;
+            color: var(--blue-primary) !important;
+            margin-bottom: var(--spacing-xxl);
+        }
+
+        .text-primary { color: var(--blue-primary) !important; }
+        .text-success { color: var(--green-success) !important; }
+        .text-danger { color: var(--red-danger) !important; }
+        .text-info { color: var(--blue-primary) !important; }
+        .text-warning { color: var(--warning-color) !important; }
+        .text-muted { color: var(--muted-text) !important; }
+        .text-white { color: #fff !important; }
+        .text-dark { color: var(--dark-text) !important; }
+
+        .bg-primary { background-color: var(--blue-primary) !important; }
+        .bg-success { background-color: var(--green-success) !important; }
+        .bg-danger { background-color: var(--red-danger) !important; }
+        .bg-info { background-color: var(--blue-primary) !important; }
+        .bg-dark { background-color: var(--dark-text) !important; }
+
+        .border-primary { border-color: var(--blue-primary) !important; }
+        .border-success { border-color: var(--green-success) !important; }
+        .border-danger { border-color: var(--red-danger) !important; }
+        .border-info { border-color: var(--blue-primary) !important; }
+        .border-warning { border-color: var(--warning-color) !important; }
+        .border-dark { border-color: var(--dark-text) !important; }
+
+        .button-prim,
+        .button-grn {
+            display: inline-block;
+            padding: var(--spacing-sm) var(--spacing-md);
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            text-decoration: none;
+            border-radius: var(--spacing-xs);
+            transition: all 0.2s ease-in-out;
+            cursor: pointer;
+            border: none;
+            margin-right: var(--spacing-sm);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .button-prim {
+            background-color: var(--blue-primary);
+            color: white;
+        }
+        .button-prim:hover {
+            background-color: #166BBF;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .button-grn {
+            background-color: var(--green-success);
+            color: white;
+        }
+        .button-grn:hover {
+            background-color: #007A15;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .btn-outline-warning {
+            color: var(--warning-color);
+            border-color: var(--warning-color);
+        }
+        .btn-outline-warning:hover {
+            background-color: var(--warning-color);
+            color: var(--dark-text);
+        }
+
+        .btn-outline-danger {
+            color: var(--red-danger);
+            border-color: var(--red-danger);
+        }
+        .btn-outline-danger:hover {
+            background-color: var(--red-danger);
+            color: white;
+        }
+
+        .btn-outline-dark {
+            color: var(--dark-text);
+            border-color: var(--dark-text);
+        }
+        .btn-outline-dark:hover {
+            background-color: var(--dark-text);
+            color: white;
+        }
+
+        .card {
+            border-radius: var(--spacing-sm);
+            overflow: hidden;
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color) !important;
+        }
+
+        .card:hover {
+            transform: translateY(-var(--spacing-xs));
+            box-shadow: 0 var(--spacing-sm) var(--spacing-lg) rgba(0, 0, 0, 0.12) !important;
+        }
+
+        .card-body {
+            padding: var(--spacing-lg);
+        }
+
+        .card-title {
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+            font-size: 1.15rem;
+        }
+
+        .card-text.display-5 {
+            font-size: 3rem;
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .card-footer {
+            padding: var(--spacing-sm) var(--spacing-lg);
+            font-size: 0.85em;
+            line-height: 1.4;
+            border-top: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .progress {
+            height: var(--spacing-lg);
+            border-radius: var(--spacing-xs);
+            background-color: rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            font-weight: 500;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: var(--spacing-xs);
+            transition: width 0.6s ease;
+            color: white;
+        }
+
+        .progress-bar.bg-success { background-color: var(--green-success) !important; }
+        .progress-bar.bg-warning { background-color: var(--warning-color) !important; color: var(--dark-text) !important; }
+        .progress-bar.bg-danger { background-color: var(--red-danger) !important; }
+
+        .row.g-4 {
+            --bs-gutter-x: var(--spacing-xl);
+            --bs-gutter-y: var(--spacing-xl);
+            margin-bottom: var(--spacing-xxl) !important;
+        }
+
+        .mb-4 { margin-bottom: var(--spacing-xl) !important; }
+        .pb-3 { padding-bottom: var(--spacing-md) !important; }
+        .mt-4 { margin-top: var(--spacing-xl) !important; }
+        .mt-3 { margin-top: var(--spacing-lg) !important; }
+        .mb-0 { margin-bottom: 0 !important; }
+        .mt-2 { margin-top: var(--spacing-sm) !important; }
+        .d-block { display: block !important; }
+
+        .card-header.bg-dark {
+            background-color: var(--dark-text) !important;
+            color: var(--light-text) !important;
+            padding: var(--spacing-sm) var(--spacing-lg);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-weight: 500;
+        }
+
+        .card-header .text-muted {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        .card-body strong {
+            font-weight: 600;
+        }
+
+        h3.mb-3 {
+            margin-bottom: var(--spacing-lg) !important;
+            font-weight: 600;
+            color: var(--dark-text);
+        }
+
+        .transactions-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-md);
+        }
+
+        .transaction {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--spacing-sm);
+            padding: var(--spacing-md) var(--spacing-lg);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+        }
+
+        .transaction:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        }
+
+        .transaction-left {
+            display: flex;
+            flex-direction: column;
+            gap: var(--spacing-xs);
+        }
+
+        .transaction-header {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .transaction-icon-income,
+        .transaction-icon-saving,
+        .transaction-icon-expense {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: var(--spacing-xl);
+            height: var(--spacing-xl);
+            border-radius: 50%;
+            font-size: 1.1em;
+            color: white;
+        }
+
+        .transaction-icon-income { background-color: var(--green-success); }
+        .transaction-icon-saving { background-color: var(--blue-primary); }
+        .transaction-icon-expense { background-color: var(--red-danger); }
+
+        .transaction-title {
+            margin: 0;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .transaction-title.income { color: var(--green-success); }
+        .transaction-title.saving { color: var(--blue-primary); }
+        .transaction-title.expense { color: var(--red-danger); }
+
+        .transaction-date {
+            font-size: 0.85em;
+            color: var(--muted-text);
+            margin-bottom: var(--spacing-xs);
+        }
+
+        .transaction-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .transaction-value {
+            margin: 0;
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .transaction-value.income { color: var(--green-success); }
+        .transaction-value.saving { color: var(--blue-primary); }
+        .transaction-value.expense { color: var(--red-danger); }
+
+        @media (max-width: 767.98px) {
+            .container.py-5.mt-5 {
+                padding: var(--spacing-xl) !important;
+                margin-top: var(--spacing-xl) !important;
+            }
+            h1.text-center.fw-semibold.text-primary {
+                font-size: 2rem;
+                margin-bottom: var(--spacing-xl);
+            }
+            .mb-4.d-flex.flex-wrap.gap-2 {
+                flex-direction: column;
+                gap: var(--spacing-sm) !important;
+            }
+            .button-prim,
+            .button-grn {
+                width: 100%;
+                margin-right: 0;
+            }
+            .row.g-4 {
+                --bs-gutter-x: var(--spacing-md);
+                --bs-gutter-y: var(--spacing-md);
+                margin-bottom: var(--spacing-xl) !important;
+            }
+            .card-body {
+                padding: var(--spacing-md);
+            }
+            .card-text.display-5 {
+                font-size: 2.5rem;
+            }
+            .card-footer {
+                padding: var(--spacing-sm);
+            }
+            .transaction {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: var(--spacing-sm) var(--spacing-md);
+            }
+            .transaction-right {
+                width: 100%;
+                justify-content: flex-end;
+                margin-top: var(--spacing-sm);
+            }
+            .transaction-header {
+                margin-bottom: var(--spacing-xs);
+            }
+            .transaction-date {
+                margin-bottom: var(--spacing-xs);
+            }
+            .d-flex.gap-2 {
+                margin-top: var(--spacing-sm);
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container py-5 mt-5">
@@ -38,7 +398,7 @@
             </div>
         {% endif %}
 
-        <div class="mb-4">
+        <div class="mb-4 d-flex flex-wrap gap-2">
             <a href="{% url 'log_transaction' %}" class="button-prim">Log Transaction</a>
             <a href="{% url 'set_goal' %}" class="button-grn">Set Expenses Goal</a>
         </div>
@@ -82,7 +442,7 @@
                         <p class="card-text display-5 fw-bold">${{ summary_today.total_savings|floatformat:2 }}</p>
                         <small class="text-muted">Today's Savings</small>
                     </div>
-                    <div class="card-footer bg-info text-dark">
+                    <div class="card-footer bg-info text-white">
                         <small>Weekly: ${{ summary_week.total_savings|floatformat:2 }}</small><br />
                         <small>Monthly: ${{ summary_month.total_savings|floatformat:2 }}</small>
                     </div>
@@ -135,9 +495,9 @@
                                         <div class="progress mt-3" style="height: 25px;">
                                             <div
                                                 class="progress-bar
-                                                    {% if budget_goal.progress_to_goal < 75 %}bg-success
-                                                    {% elif budget_goal.progress_to_goal < 100 %}bg-warning
-                                                    {% else %}bg-danger{% endif %}"
+                                                {% if budget_goal.progress_to_goal < 75 %}bg-success
+                                                {% elif budget_goal.progress_to_goal < 100 %}bg-warning
+                                                {% else %}bg-danger{% endif %}"
                                                 role="progressbar"
                                                 data-progress="{{ budget_goal.progress_to_goal|floatformat:0 }}"
                                                 aria-valuemin="0"
@@ -172,7 +532,6 @@
         </div>
 
 
-            <!--RECENT TRANSACTIONS-->
     <h3 class="mb-3">Recent Transactions</h3>
     <div class="transactions-wrapper">
         {% for transaction in transactions|slice:":10" %}
@@ -197,7 +556,7 @@
                         </div>
                     </div>
                     <div class="transaction-right">
-                        <p class="transaction-value income">+{{ transaction.value|floatformat:2 }}</p>
+                        <p class="transaction-value income">+${{ transaction.value|floatformat:2 }}</p>
                     </div>
                 </div>
             {% elif transaction.type == "saving" %}
@@ -205,7 +564,7 @@
                     <div class="transaction-left">
                         <div class="transaction-header">
                             <div class="transaction-icon-saving">
-                                <i class="bi bi-wallet2"></i>
+                                <i class="bi bi-piggy-bank"></i>
                             </div>
                             <p class="transaction-title saving">{{ transaction.title }}</p>
                         </div>
@@ -221,7 +580,7 @@
                         </div>
                     </div>
                     <div class="transaction-right">
-                        <p class="transaction-value saving">{{ transaction.value|floatformat:2 }}</p>
+                        <p class="transaction-value saving">${{ transaction.value|floatformat:2 }}</p>
                     </div>
                 </div>
             {% else %}
@@ -229,7 +588,7 @@
                     <div class="transaction-left">
                         <div class="transaction-header">
                             <div class="transaction-icon-expense">
-                                <i class="bi bi-wallet2"></i>
+                                <i class="bi bi-cash-stack"></i>
                             </div>
                             <p class="transaction-title expense">{{ transaction.title }}</p>
                         </div>
@@ -245,41 +604,28 @@
                         </div>
                     </div>
                     <div class="transaction-right">
-                        <p class="transaction-value expense">- {{ transaction.value|floatformat:2 }}</p>
+                        <p class="transaction-value expense">-${{ transaction.value|floatformat:2 }}</p>
                     </div>
                 </div>
             {% endif %}
         {% endfor %}
     </div>
     {% if not transactions %}
-        <p class="text-center text-muted">No transactions found yet. Start adding some!</p>
+        <p class="text-center text-muted mt-4">No transactions found yet. Start adding some!</p>
     {% endif %}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" xintegrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-    document.querySelectorAll('.progress-bar[data-progress]').forEach(function(bar) {
+        document.querySelectorAll('.progress-bar[data-progress]').forEach(function(bar) {
             const progress = bar.getAttribute('data-progress');
             bar.style.width = progress + '%';
         });
     });
-</script>
+    </script>
 
 </body>
-
-<style>
-    .button-grn{
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    background-color: #00931B;
-    padding: 10px 15px;
-    font-size: 16px;
-    transition: .2s ease-in-out all;
-    }
-    .button-grn:hover{
-        background-color: #017416;
-    }
-</style>
 </html>
