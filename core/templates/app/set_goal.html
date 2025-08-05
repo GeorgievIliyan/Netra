@@ -1,28 +1,34 @@
 {% load static %}
+{% include "components/navbar.html" %}
 {% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Netra | Create Budget Goal</title>
-    <!--TAB ICON-->
-    <link rel="icon" href="{% static 'logos/netra.svg' %}" type="image/svg+xml">
-    <!--BOOTSTRAP-->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Netra | Set Goal</title>
+    <link rel="icon" href="{% static 'logos/netra.svg' %}" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link
         href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
         rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+        crossorigin="anonymous"
     />
-    <!--CSS & FONTS-->
-    <link rel="stylesheet" href="{% static 'styles/fonts.css' %}">
-    <!--BOOTSTRAP ICONS-->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'styles/fonts.css' %}"/>
+    <link rel="stylesheet" href="{% static 'styles/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/forms.css' %}">
 </head>
 <body>
-
-    <div class="container d-flex justify-content-center align-items-center min-vh-100">
-        <div class="card shadow p-4 rounded" style="width: 100%; max-width: 450px;">
-            <h3 class="text-center mb-4 text-primary fw-semibold fs-2 user-select-none">Set Goal</h3>
+    <div class="form-page-container">
+        <div class="form-card">
+            <h3 class="form-title text-primary">Set Goal</h3>
 
             {% if messages %}
                 <div class="messages mb-3">
@@ -55,16 +61,14 @@
                     </div>
                 {% endfor %}
 
-                <div class="d-flex align-items-center justify-content-center">
-                    <button class="btn btn-primary" type="submit">Set</button>
-                    <a href="{% url 'dashboard' %}" class="btn btn-danger mx-2">Cancel</a> {# Added mx-2 here (margin-left and margin-right) #}
+                <div class="form-actions">
+                    <button class="button-prim" type="submit">Set</button>
+                    <a href="{% url 'dashboard' %}" class="btn-outline-danger">Cancel</a>
                 </div>
             </form>
         </div>
     </div>
 
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>

@@ -21,5 +21,10 @@ urlpatterns = [
     path('netra/goals/create/', views.set_goal, name='set_goal'),
     path('netra/goals/all/', views.budget_goals, name='goals'),
     path('netra/goals/edit/<str:pk>/', views.goal_edit, name='edit_goal'),
-    path('netra/goals/delete/<str:pk>/confirm', views.goal_delete, name='delete_goal')
+    path('netra/goals/delete/<str:pk>/confirm', views.goal_delete, name='delete_goal'),
+    #* ===== REMINDERS & NOTES RELATED URLS ====== *#
+    path('netra/notes/all/', views.notebook, name='notes'),
+    path('netra/notes/create/', views.create_note, name='note_create'),
+    path('netra/notes/edit/<str:pk>/', views.edit_note, name='note_edit'),
+    path('netra/notes/delete/<str:pk>/confirm/', views.delete_note, name='note_delete')
 ]

@@ -61,3 +61,9 @@ class BudgetGoal(models.Model):
     
     def __str__(self):
         return (f"Budget goal \"{self.title}\" set by {self.user} on {self.created_at} for {self.date} with value of {self.value}.")
+    
+class FinancialNote(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    text = models.TextField(max_length=500)
+    date = models.DateTimeField(auto_now_add=True)

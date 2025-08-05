@@ -63,3 +63,7 @@ class GoalForm(forms.Form):
     title = forms.CharField(max_length=50, required=False)
     value = forms.DecimalField(required=True)
     date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), required=True)
+
+class NoteForm(forms.Form):
+    title = forms.CharField(max_length=100, required=True, label="Title: ")
+    text = forms.CharField(max_length=500, required=True, label="Your thoughts and observations:", widget=forms.TextInput())

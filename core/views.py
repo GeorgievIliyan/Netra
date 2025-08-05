@@ -324,4 +324,60 @@ def goal_edit(request, pk):
             'value': goal.value,
             'date': goal.date
         })
-    return render(request, 'app/goal_edit.html', {'form': form})
+    return render(request, 'app/goal_edit.html', {'form': form})\
+
+
+#* ===== NOTEBOOK ===== *#
+def notebook(request):
+    user = request.user
+    context = {
+        'notes': models.FinancialNote.objects.filter(user = user).all()
+    }
+    return render(request, 'notebook/notebook.html', context)
+
+def create_note(request):
+    if request.method == "POST":
+        user = request.user
+        form = forms.NoteForm(request.POST)
+        
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            text = form.cleaned_data['text']
+            
+            try:
+                models.FinancialNote.objects.create(
+                    title = title,
+                    text = text,
+                    user = user
+                )
+                return redirect('notes')
+            except:
+                messages.error(request, 'Could not add your financial note! Please try again.')
+    else:
+        form = forms.NoteForm()
+    return render(request, 'notebook/note_create.html', {'form': form})
+
+def delete_note(request, pk):
+    note = get_object_or_404(models.FinancialNote, pk = pk)
+    if request.method == "POST": 
+        note.delete()
+        return redirect('notes')
+    return render(request, 'notebook/note_delete.html', {'note': note})
+
+def edit_note(request, pk):
+    note = get_object_or_404(models.FinancialNote, pk = pk)
+    if request.method == "POST":
+        form = forms.NoteForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data['title']
+            text = form.cleaned_data['text']
+            
+            try:
+                note.title = title
+                note.text = text
+                return redirect('notes')
+            except:
+                messages.error(request, 'Could not update note! Please try agian.')
+                return render(request, 'notebook/note_edit.html', {'form': form})
+    else:
+        form = forms.NoteForm()
