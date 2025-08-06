@@ -26,10 +26,10 @@
     <link rel="stylesheet" href="{% static 'styles/notes.css' %}">
 </head>
 <body>
-    <div class="container py-5 mt-5">
+    <div class="container py-5">
         <div class="mb-25">
             <h1 class="text-primary user-select-none">Financial Notes</h1>
-            <a href="#" class="button-prim">Add New Note</a>
+            <a href="{% url 'note_create' %}" class="button-prim">Add New Note</a>
         </div>
 
         {% if notes %}
@@ -42,8 +42,8 @@
                         <p class="note-content">{{ note.content }}</p>
                         <div class="note-footer">
                             <div class="d-flex gap-2">
-                                <a href="#" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil-square"></i></a>
-                                <a href="#" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash3-fill"></i></a>
+                                <a href="{% url 'note_edit' note.pk %}" class="btn btn-sm btn-outline-warning"><i class="bi bi-pencil-square"></i></a>
+                                <a href="{% url 'note_delete' note.pk %}" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash3-fill"></i></a>
                             </div>
                         </div>
                     </div>

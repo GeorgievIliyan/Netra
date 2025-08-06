@@ -1,0 +1,313 @@
+:root {
+    --blue-primary: #1D85EB;
+    --green-success: #00931B;
+    --red-danger: #C41313;
+    --warning-color: #FFC107;
+    --info-color: #0dcaf0;
+    --dark-text: #2c3e50;
+    --light-text: #ecf0f1;
+    --muted-text: #7f8c8d;
+    --border-color: #e0e0e0;
+    --bg-light: #f8f9fa;
+    --bg-card: #ffffff;
+
+    --spacing-xs: 5px;
+    --spacing-sm: 10px;
+    --spacing-md: 15px;
+    --spacing-lg: 20px;
+    --spacing-xl: 30px;
+    --spacing-xxl: 40px;
+    --spacing-xxxl: 50px;
+}
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-light);
+    color: var(--dark-text);
+    line-height: 1.6;
+    padding: var(--spacing-lg);
+}
+
+.container.pt-5 {
+    padding-top: var(--spacing-xxxl);
+    max-width: 1200px;
+}
+
+.mb-25 {
+    margin-bottom: var(--spacing-xl);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+}
+
+.mb-25 h1 {
+    margin-bottom: 0;
+    font-weight: 600;
+    color: var(--dark-text);
+}
+
+.text-primary { color: var(--blue-primary); }
+.text-success { color: var(--green-success); }
+.text-danger { color: var(--red-danger); }
+.text-info { color: var(--blue-primary); }
+.text-warning { color: var(--warning-color); }
+.text-muted { color: var(--muted-text); }
+.text-white { color: #fff; }
+.text-dark { color: var(--dark-text); }
+
+.bg-primary { background-color: var(--blue-primary); }
+.bg-success { background-color: var(--green-success); }
+.bg-danger { background-color: var(--red-danger); }
+.bg-info { background-color: var(--blue-primary); }
+.bg-dark { background-color: var(--dark-text); }
+
+.border-primary { border-color: var(--blue-primary); }
+.border-success { border-color: var(--green-success); }
+.border-danger { border-color: var(--red-danger); }
+.border-info { border-color: var(--blue-primary); }
+.border-warning { border-color: var(--warning-color); }
+.border-dark { border-color: var(--dark-text); }
+
+.button-prim,
+.button-grn {
+    display: inline-block;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    text-decoration: none;
+    border-radius: var(--spacing-xs);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+    border: none;
+    margin-right: var(--spacing-sm);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.button-prim {
+    background-color: var(--blue-primary);
+    color: white;
+}
+.button-prim:hover {
+    background-color: #166BBF;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.button-grn {
+    background-color: var(--green-success);
+    color: white;
+}
+.button-grn:hover {
+    background-color: #007A15;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.btn-outline-warning {
+    color: var(--warning-color);
+    border-color: var(--warning-color);
+}
+.btn-outline-warning:hover {
+    background-color: var(--warning-color);
+    color: var(--dark-text);
+}
+
+.btn-outline-danger {
+    color: var(--red-danger);
+    border-color: var(--red-danger);
+}
+.btn-outline-danger:hover {
+    background-color: var(--red-danger);
+    color: white;
+}
+
+.transactions-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.transaction {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-lg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.transaction:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.transaction-left {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+}
+
+.transaction-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-xs);
+}
+
+.transaction-icon-income,
+.transaction-icon-saving,
+.transaction-icon-expense {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--spacing-xl);
+    height: var(--spacing-xl);
+    border-radius: 50%;
+    font-size: 1.1em;
+    color: white;
+    padding: var(--spacing-lg);
+}
+
+.transaction-icon-income { background-color: var(--green-success); }
+.transaction-icon-saving { background-color: var(--blue-primary); }
+.transaction-icon-expense { background-color: var(--red-danger); }
+
+.transaction-title {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.transaction-title.income { color: var(--green-success); }
+.transaction-title.saving { color: var(--blue-primary); }
+.transaction-title.expense { color: var(--red-danger); }
+
+.transaction-date {
+    font-size: 0.85em;
+    color: var(--muted-text);
+    margin-bottom: var(--spacing-xs);
+}
+
+.transaction-right {
+    display: flex;
+    align-items: center;
+}
+
+.transaction-value {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.transaction-value.income { color: var(--green-success); }
+.transaction-value.saving { color: var(--blue-primary); }
+.transaction-value.expense { color: var(--red-danger); }
+
+.text-center.text-muted {
+    margin-top: var(--spacing-xl);
+}
+
+.card {
+    border-radius: var(--spacing-sm);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+}
+.card-footer {
+    border-top: 1px solid var(--border-color);
+}
+
+.card-footer.bg-primary, .card-footer.bg-info {
+    background-color: var(--blue-primary);
+    color: var(--light-text);
+}
+.card-footer.bg-success {
+    background-color: var(--green-success);
+    color: var(--light-text);
+}
+.card-footer.bg-danger {
+    background-color: var(--red-danger);
+    color: var(--light-text);
+}
+.card-footer.bg-warning {
+    background-color: var(--warning-color);
+    color: var(--dark-text);
+}
+.card-header.bg-dark {
+    background-color: var(--dark-text);
+    color: var(--light-text);
+}
+.card-header .text-muted {
+    color: var(--light-text);
+    opacity: 0.7;
+}
+
+.progress-container {
+    height: 25px;
+    background-color: var(--border-color);
+    border-radius: var(--spacing-xs);
+    overflow: hidden;
+}
+
+.progress-bar-design {
+    height: 100%;
+    line-height: 25px;
+    text-align: center;
+    color: white;
+    transition: width .6s ease;
+}
+
+.progress-bar-design.progress-success {
+    background-color: var(--green-success);
+}
+.progress-bar-design.progress-warning {
+    background-color: var(--warning-color);
+    color: var(--dark-text);
+}
+.progress-bar-design.progress-danger {
+    background-color: var(--red-danger);
+}
+
+
+@media (max-width: 768px) {
+    .container.pt-5 {
+        padding-top: var(--spacing-xl);
+    }
+    .container{
+        margin-top: 0;
+    }
+    .mb-25 {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--spacing-sm);
+    }
+    .mb-25 h1 {
+        font-size: 2rem;
+    }
+    .button-prim, .button-grn {
+        width: 100%;
+        margin-right: 0;
+    }
+    .transaction {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    .transaction-right {
+        width: 100%;
+        justify-content: flex-end;
+        margin-top: var(--spacing-sm);
+    }
+    .transaction-header {
+        margin-bottom: var(--spacing-xs);
+    }
+    .transaction-date {
+        margin-bottom: var(--spacing-xs);
+    }
+    .d-flex.gap-2 {
+        margin-top: var(--spacing-sm);
+    }
+}

@@ -84,9 +84,21 @@ nav {
     transition: font-size 0.2s ease-in-out;
 }
 
-@media (max-width: 767.98px) {
+@media (max-width: 768px) {
+    body {
+        padding-top: 0;
+        padding-bottom: var(--spacing-xxxl);
+    }
+    nav {
+        top: auto;
+        bottom: 0;
+        flex-direction: column-reverse;
+        border-bottom: none;
+        border-top: 1px solid var(--border-color);
+    }   
     .nav-wrapper {
-        gap: var(--spacing-md);
+        width: 100%;
+        justify-content: space-around;
     }
     .nav-wrapper a {
         padding: var(--spacing-md);
@@ -95,6 +107,9 @@ nav {
         display: none;
     }
     .nav-wrapper a i {
-        font-size: 16px;
+        font-size: 20px;
+    }
+    .logo-link {
+        display: none;
     }
 }

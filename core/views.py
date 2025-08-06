@@ -380,4 +380,8 @@ def edit_note(request, pk):
                 messages.error(request, 'Could not update note! Please try agian.')
                 return render(request, 'notebook/note_edit.html', {'form': form})
     else:
-        form = forms.NoteForm()
+        form = forms.NoteForm(initial={
+            'title': note.title,
+            'text': note.text
+        })
+    return render(request, 'notebook/note_edit.html', {'form': form})

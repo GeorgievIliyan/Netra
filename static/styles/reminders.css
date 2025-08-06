@@ -1,0 +1,101 @@
+.reminders-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.reminder {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-lg);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.reminder:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+.reminder-left {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.reminder-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.reminder-icon-income,
+.reminder-icon-saving,
+.reminder-icon-expense {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    font-size: 1.2em;
+    color: white;
+}
+
+.reminder-icon-income { background-color: var(--green-success); }
+.reminder-icon-saving { background-color: var(--blue-primary); }
+.reminder-icon-expense { background-color: var(--red-danger); }
+
+.reminder-title {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.reminder-description {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.reminder-right {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+}
+
+.reminder-date {
+    margin: 0;
+    font-size: 0.9em;
+    color: var(--muted-text);
+}
+
+.text-income { color: var(--green-success); }
+.text-saving { color: var(--blue-primary); }
+.text-expense { color: var(--red-danger); }
+
+@media (max-width: 767.98px) {
+    .reminder {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: var(--spacing-sm) var(--spacing-md);
+    }
+    .reminder-right {
+        width: 100%;
+        justify-content: space-between;
+        margin-top: var(--spacing-sm);
+    }
+    .reminder-left {
+        gap: var(--spacing-sm);
+    }
+    .reminder-header {
+        margin-bottom: 0;
+    }
+    .reminder-date {
+        margin-bottom: 0;
+    }
+}
